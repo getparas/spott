@@ -26,14 +26,15 @@ const Header = () => {
 
           {/* Right Side Action*/}
           <div className="flex items-center">
+            <SignedIn>
+              {/* Create Event*/}
+              <UserButton />
+            </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
                 <Button size="sm">Sign In</Button>
               </SignInButton>
             </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
           </div>
         </div>
         {/* Mobile Search and Location - Below Header*/}
