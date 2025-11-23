@@ -1,9 +1,19 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+"use client";
+
+import { SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { Authenticated, Unauthenticated } from "convex/react";
+import { useState } from "react";
+import Spinner from "./ui/spinner";
+import { BarLoader } from "react-spinners";
+import { useStoreUser } from "@/hooks/useStoreUser";
 
 const Header = () => {
+  const [isSpinner, setIsSpinner] = useState(false);
+
+  const { isLoading } = useStoreUser();
   return (
     <header>
       <nav className="dark:bg-background/80 fixed top-0 right-0 left-0 z-20 border-b bg-slate-900 backdrop-blur-xl">
@@ -24,17 +34,32 @@ const Header = () => {
 
           {/* Search & Location - Desktop Only*/}
 
+          {/* Loader*/}
+          {isLoading && (
+            <div className="absolute bottom-0 left-0 w-full">
+              <BarLoader color="#fff" width={"100%"} />
+            </div>
+          )}
+
           {/* Right Side Action*/}
           <div className="flex items-center">
-            <SignedIn>
-              {/* Create Event*/}
+            <Authenticated>
               <UserButton />
-            </SignedIn>
-            <SignedOut>
+            </Authenticated>
+            <Unauthenticated>
               <SignInButton mode="modal">
-                <Button size="sm">Sign In</Button>
+                <Button
+                  size="sm"
+                  disabled={isLoading}
+                  onClick={() => {
+                    setIsSpinner(true);
+                    setTimeout(() => setIsSpinner(false), 500);
+                  }}
+                >
+                  {isSpinner ? <Spinner /> : "Sign In"}
+                </Button>
               </SignInButton>
-            </SignedOut>
+            </Unauthenticated>
           </div>
         </div>
         {/* Mobile Search and Location - Below Header*/}
