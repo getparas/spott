@@ -45,7 +45,11 @@ const Header = () => {
 
           {/* Right Side Action*/}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={setShowUpgradeModal}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowUpgradeModal(true)}
+            >
               Pricing
             </Button>
             <Button variant="ghost" size="sm" asChild className="mr-2">
