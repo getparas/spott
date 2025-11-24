@@ -23,9 +23,7 @@ export default function Home() {
               memorable. Join our community today.
             </p>
             <Link href="/explore">
-              <Button size="xl" className="corner-squircle">
-                Get Started
-              </Button>
+              <Button size="xl">Get Started</Button>
             </Link>
           </div>
           {/* right */}

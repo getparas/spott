@@ -9,7 +9,7 @@ const Spinner = ({ size = "sm" }) => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className={`animate-spin fill-white text-gray-200 ${sizeClasses[size]}`}
+        className={`animate-spin fill-white text-purple-500 ${sizeClasses[size]}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
