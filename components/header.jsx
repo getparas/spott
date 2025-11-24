@@ -9,9 +9,11 @@ import { useState } from "react";
 import Spinner from "./ui/spinner";
 import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/useStoreUser";
+import { Building, Plus, Ticket } from "lucide-react";
 
 const Header = () => {
   const [isSpinner, setIsSpinner] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   const { isLoading } = useStoreUser();
   return (
@@ -42,9 +44,35 @@ const Header = () => {
           )}
 
           {/* Right Side Action*/}
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={setShowUpgradeModal}>
+              Pricing
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="mr-2">
+              <Link href="explore">Explore</Link>
+            </Button>
             <Authenticated>
-              <UserButton />
+              <Button size="sm" asChild className="mr-4 flex gap-2">
+                <Link href="/create-event">
+                  <Plus className="size-4" />
+                  <span className="hidden sm:inline">Create Event</span>
+                </Link>
+              </Button>
+              <UserButton>
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Tickets"
+                    labelIcon={<Ticket size={16} />}
+                    href="/my-tickets"
+                  />
+                  <UserButton.Link
+                    label="My Events"
+                    labelIcon={<Building size={16} />}
+                    href="/my-events"
+                  />
+                  <UserButton.Action label="manageAccount" />
+                </UserButton.MenuItems>
+              </UserButton>
             </Authenticated>
             <Unauthenticated>
               <SignInButton mode="modal">
