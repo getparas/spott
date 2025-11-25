@@ -10,10 +10,15 @@ import Spinner from "./ui/spinner";
 import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/useStoreUser";
 import { Building, Plus, Ticket } from "lucide-react";
+import OnboardingModal from "./onboarding-modal";
+import { useOnboarding } from "@/hooks/useOnboarding";
 
 const Header = () => {
   const [isSpinner, setIsSpinner] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  const { showOnboarding, handleOnboardingComplete, handleOnboardingSkip } =
+    useOnboarding();
 
   const { isLoading } = useStoreUser();
   return (
@@ -97,6 +102,11 @@ const Header = () => {
         {/* Mobile Search and Location - Below Header*/}
       </nav>
       {/* Modals*/}
+      <OnboardingModal
+        isOpen={showOnboarding}
+        onClose={handleOnboardingSkip}
+        onComplete={handleOnboardingComplete}
+      />
     </header>
   );
 };

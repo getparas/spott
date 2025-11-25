@@ -4,7 +4,7 @@ import { internalMutation } from "./_generated/server";
 const SAMPLE_EVENTS = [
   {
     title: "React 19 Workshop: Master the New Features",
-    description: `Join us for an intensive hands-on workshop diving deep into React 19's revolutionary features! 
+    description: `Join us for an intensive hands-on workshop diving deep into React 19's revolutionary features!
 
 In this session, you'll learn about:
 - The new Actions API and how it simplifies form handling
@@ -661,7 +661,7 @@ export const run = internalMutation({
         email: "organizer@eventhub.com",
         tokenIdentifier: "seed-user-token",
         name: "EventHub Nepal Team",
-        hasCompletedOnboarding: true,
+        hasCompletedOnBoarding: true,
         location: {
           city: "Kathmandu",
           state: "Bagmati",
