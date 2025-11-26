@@ -12,6 +12,7 @@ import { useStoreUser } from "@/hooks/useStoreUser";
 import { Building, Plus, Ticket } from "lucide-react";
 import OnboardingModal from "./onboarding-modal";
 import { useOnboarding } from "@/hooks/useOnboarding";
+import SearchLocationBar from "./search-location-bar";
 
 const Header = () => {
   const [isSpinner, setIsSpinner] = useState(false);
@@ -40,6 +41,9 @@ const Header = () => {
           </Link>
 
           {/* Search & Location - Desktop Only*/}
+          <div className="hidden flex-1 justify-center md:flex">
+            <SearchLocationBar />
+          </div>
 
           {/* Loader*/}
           {isLoading && (
@@ -99,7 +103,11 @@ const Header = () => {
             </Unauthenticated>
           </div>
         </div>
+
         {/* Mobile Search and Location - Below Header*/}
+        <div className="border-t px-3 py-3 md:hidden">
+          <SearchLocationBar />
+        </div>
       </nav>
       {/* Modals*/}
       <OnboardingModal
