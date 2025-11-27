@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, useAuth, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -9,10 +9,12 @@ import { useState } from "react";
 import Spinner from "./ui/spinner";
 import { BarLoader } from "react-spinners";
 import { useStoreUser } from "@/hooks/useStoreUser";
-import { Building, Plus, Ticket } from "lucide-react";
+import { Building, Crown, Plus, Ticket } from "lucide-react";
 import OnboardingModal from "./onboarding-modal";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import SearchLocationBar from "./search-location-bar";
+import { Badge } from "./ui/badge";
+import UpgradeModal from "./upgrade-modal";
 
 const Header = () => {
   const [isSpinner, setIsSpinner] = useState(false);
@@ -22,6 +24,10 @@ const Header = () => {
     useOnboarding();
 
   const { isLoading } = useStoreUser();
+
+  const { has } = useAuth();
+  const hasPro = has?.({ plan: "pro" });
+
   return (
     <header>
       <nav className="dark:bg-background/80 fixed top-0 right-0 left-0 z-20 border-b bg-slate-900 backdrop-blur-xl">
@@ -38,6 +44,12 @@ const Header = () => {
             />
 
             {/* Pro badge*/}
+            {hasPro && (
+              <Badge className="ml-3 gap-1 bg-linear-to-r from-pink-500 to-orange-500 text-white">
+                <Crown className="size-3" />
+                Pro
+              </Badge>
+            )}
           </Link>
 
           {/* Search & Location - Desktop Only*/}
@@ -54,13 +66,18 @@ const Header = () => {
 
           {/* Right Side Action*/}
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowUpgradeModal(true)}
-            >
-              Pricing
-            </Button>
+            {/* Show Pro badge or Upgrade button*/}
+
+            {!hasPro && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowUpgradeModal(true)}
+              >
+                Pricing
+              </Button>
+            )}
+
             <Button variant="ghost" size="sm" asChild className="mr-2">
               <Link href="explore">Explore</Link>
             </Button>
@@ -71,7 +88,16 @@ const Header = () => {
                   <span className="hidden sm:inline">Create Event</span>
                 </Link>
               </Button>
-              <UserButton>
+
+              {/* User Button*/}
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "size-9",
+                  },
+                }}
+              >
                 <UserButton.MenuItems>
                   <UserButton.Link
                     label="My Tickets"
@@ -114,6 +140,12 @@ const Header = () => {
         isOpen={showOnboarding}
         onClose={handleOnboardingSkip}
         onComplete={handleOnboardingComplete}
+      />
+
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        trigger="header"
       />
     </header>
   );
